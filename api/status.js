@@ -6,8 +6,15 @@ export default async function handler(req, res) {
   const SCRAPERS = {
     spirits: {
       table: 'bv_spirits',
-      sources: ['openfoodfacts', 'brewery', 'punkapi', 'cocktaildb', 'untappd'],
-      description: 'Spirits, beer, wine, cocktails',
+      sources: [
+        'ttb_cola',      // NEW! 500K+ US alcohol labels
+        'openfoodfacts', 
+        'brewery', 
+        'punkapi', 
+        'cocktaildb', 
+        'untappd'
+      ],
+      description: 'Spirits, beer, wine, cocktails - NOW WITH TTB COLA (500K+)',
     },
     cards: {
       table: 'cards',
@@ -45,7 +52,7 @@ export default async function handler(req, res) {
   
   return res.status(200).json({
     status: 'ok',
-    version: '1.0.0',
+    version: '1.1.0',
     timestamp: new Date().toISOString(),
     scrapers: SCRAPERS,
     connections: {
@@ -54,9 +61,11 @@ export default async function handler(req, res) {
     },
     usage: {
       spirits: 'GET /api/scrape?type=spirits&source=all',
+      ttb_cola: 'GET /api/scrape?type=spirits&source=ttb_cola (500K+ products!)',
       cards: 'GET /api/scrape?type=cards&source=pokemon',
       books: 'GET /api/scrape?type=books&source=openlibrary',
       skip_upload: 'Add &skip_upload=true to test without uploading',
+      limit: 'Add &limit=1000 to limit results',
     },
     cron: {
       schedule: '0 3 * * *',
